@@ -43,6 +43,24 @@ impl Item {
 }
 
 
+fn chars_to_item_set<S>(chars: S) -> HashSet<Item> where S: AsRef<str> {
+    chars.as_ref()
+        .trim()
+        .chars()
+        .enumerate()
+        .map(|(_, letter)| Item::new_from_char(letter))
+        .collect()
+}
+
+pub fn split_line_in_half<'a>(line: &'a str) -> (&'a str, &'a str) {
+    let line = line.trim();
+    assert!(line.is_ascii()); // length below not valid if not ascii
+    let num_items = line.len();
+    assert_eq!(num_items % 2, 0);
+    line.split_at(num_items / 2)
+}
+
+
 pub fn answer_part_1<P: AsRef<Path>>(path: P) {
     let file = File::open(path).unwrap();
     let lines = io::BufReader::new(file).lines();
@@ -51,22 +69,13 @@ pub fn answer_part_1<P: AsRef<Path>>(path: P) {
         .filter(|line| line.is_ok()) 
         .map(|line| line.expect("already filtered out errors"))
         .map(|line| {
-            let line = line.trim();
-            let num_items = line.len();
-            assert_eq!(num_items % 2, 0);
-            let num_left_items = num_items / 2;
-            let left_item_set: HashSet<Item> = line.chars()
-                .enumerate()
-                .filter(|(count, _)| count < &num_left_items)
-                .map(|(_, letter)| Item::new_from_char(letter))
+            let (left, right) = split_line_in_half(line.as_str());
+            let left_item_set = chars_to_item_set(left);
+            let right_item_set = chars_to_item_set(right);
+            let overlapping_items: Vec<&Item> = left_item_set
+                .intersection(&right_item_set)
                 .collect();
-            let overlapping_right_items: Vec<Item> = line.chars()
-                .enumerate()
-                .filter(|(count, _)| count >= &num_left_items)
-                .map(|(_, letter)| Item::new_from_char(letter))
-                .filter(|item| left_item_set.contains(item))
-                .collect();
-            match overlapping_right_items.last() {
+            match overlapping_items.last() {
                 Some(item) => item.priority,
                 None => 0,
             }

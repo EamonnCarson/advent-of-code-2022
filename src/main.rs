@@ -10,6 +10,6 @@ fn main() {
     */
     day02::answer_part_1("res/day02/input.sample");
     day02::answer_part_1("res/day02/input.real");
-    //day02::answer_part_2("res/day1/part1.sample");
-    //day02::answer_part_2("res/day1/part1.real");
+    day02::answer_part_2("res/day02/input.sample");
+    day02::answer_part_2("res/day02/input.real");
 }

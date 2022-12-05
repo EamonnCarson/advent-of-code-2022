@@ -17,6 +17,6 @@ fn main() {
     */
     day03::answer_part_1("res/day03/input.sample");
     day03::answer_part_1("res/day03/input.real");
-    //day03::answer_part_2("res/day02/input.sample");
-    //day03::answer_part_2("res/day02/input.real");
+    day03::answer_part_2("res/day03/input.sample");
+    day03::answer_part_2("res/day03/input.real");
 }

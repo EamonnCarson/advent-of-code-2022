@@ -8,14 +8,15 @@ Thoughts:
   easy to do so with an array
 */
 
-use std::{fmt::Debug, path::Path, fs::File, io::{self, BufRead}, collections::HashSet};
+use std::{fmt::Debug, path::Path, fs::File, io::{self, BufRead}, collections::{HashSet, hash_set::Intersection, hash_map::RandomState}};
 
 const ASCII_CODE_OF_LOWER_A: u32 = 97;
 const ASCII_CODE_OF_UPPER_A: u32 = 65;
 
 #[derive(PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]
 struct Item {
-    priority: u32
+    priority: u32,
+    letter: char, // mostly for debug purposes
 }
 
 impl AsRef<u32> for Item {
@@ -27,16 +28,22 @@ impl AsRef<u32> for Item {
 impl Item {
     fn new_from_char(letter: char) -> Self {
         match letter {
-            _ if letter.is_ascii_uppercase() => {
+            letter if letter.is_ascii_uppercase() => {
                 let base_priority = 27;
                 let priority = u32::from(letter).checked_sub(ASCII_CODE_OF_UPPER_A);
-                Self { priority: base_priority + priority.expect("A must be lowest ascii uppercase") } 
-                },
-            _ if letter.is_ascii_lowercase() => {
+                Self { 
+                    priority: base_priority + priority.expect("A must be lowest ascii uppercase"),
+                    letter,
+                }
+            },
+            letter if letter.is_ascii_lowercase() => {
                 let base_priority = 1;
                 let priority = u32::from(letter).checked_sub(ASCII_CODE_OF_LOWER_A);
-                Self { priority: base_priority + priority.expect("a must be lowest ascii lowercase") }
-                },
+                Self { 
+                    priority: base_priority + priority.expect("a must be lowest ascii lowercase"),
+                    letter,
+                }
+            },
             _ => panic!("Char {:?} is not a valid Item indicator", letter),
         }
     }
@@ -81,5 +88,52 @@ pub fn answer_part_1<P: AsRef<Path>>(path: P) {
             }
         })
         .reduce(|a, b| a + b);
+    println!("Sum of priorities {:?}", priority_sum)
+}
+
+pub fn answer_part_2<P: AsRef<Path>>(path: P) {
+    let file = File::open(path).unwrap();
+    let lines = io::BufReader::new(file).lines();
+    let group_len = 3;
+
+
+    // Note to self: maybe invest in figuring out which library has groupby
+    let grouped_rucksacks = lines
+        .filter(|line| line.is_ok()) 
+        .map(|line| line.expect("already filtered out errors"))
+        .map(|line| chars_to_item_set(line))
+        .fold(Vec::<Vec<HashSet<Item>>>::new(), |mut accum, mut rucksack| {
+            if accum.is_empty() {
+                accum.push(vec![]);
+            }
+            if let Some(last) = accum.last_mut() {
+                if last.len() >= group_len {
+                    accum.push(vec![rucksack]);
+                } else {
+                    last.push(rucksack);
+                }
+            }
+            accum
+        });
+
+    let priority_sum = grouped_rucksacks
+        .into_iter()
+        .map(|mut rucksacks| {
+            assert_eq!(rucksacks.len(), group_len);
+            let first_rucksack = rucksacks.pop().unwrap();
+            let overlapping_items: Vec<Item> = first_rucksack
+                .into_iter()
+                .filter(|item| rucksacks
+                    .iter()
+                    .all(|other| other.contains(item))
+                )
+                .collect();
+            match overlapping_items.last() {
+                Some(item) => item.priority,
+                None => 0,
+            }
+        })
+        .reduce(|a, b| a + b);
+
     println!("Sum of priorities {:?}", priority_sum)
 }

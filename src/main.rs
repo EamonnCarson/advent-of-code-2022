@@ -26,6 +26,6 @@ fn main() {
     */
     day05::answer_part_1("res/day05/input.sample");
     day05::answer_part_1("res/day05/input.real");
-    //day05::answer_part_2("res/day05/input.sample");
-    //day05::answer_part_2("res/day05/input.real");
+    day05::answer_part_2("res/day05/input.sample");
+    day05::answer_part_2("res/day05/input.real");
 }

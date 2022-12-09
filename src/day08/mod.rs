@@ -32,16 +32,16 @@ impl<T> Grid<T> {
     }
 
     fn new_from_columns(data: Vec<Vec<T>>) -> Self {
-        let grid = new_from_rows(data);
         let width = data.len();
         let height = data
             .get(0)
             .and_then(|x| Some(x.len()))
             .expect("data isn't empty");
-        let data: Vec<T> = data
+        let grid = Self::new_from_rows(data);
+        let data: Vec<T> = grid.data
             .into_iter()
-            .flat_map(|vec| vec.into_iter())
             .collect();
+        todo!();
         Self {height, width, data}
     }
 
@@ -49,6 +49,7 @@ impl<T> Grid<T> {
         let height = self.width;
         let width = self.height;
         let mut data = self.data.as_slice();
+        todo!();
     }
 
     fn get_ix(&self, row: usize, col: usize) -> usize {
@@ -182,7 +183,7 @@ type Forest = Grid<Tree>;
 
 impl VisibilityGrid {
     fn new_visibility_grid(height: usize, width: usize) -> Self {
-        Self::new(
+        Self::new_from_rows(
             std::iter::repeat(false).take(height)
                 .map(|_| std::iter::repeat(false)
                     .take(width)
@@ -214,7 +215,7 @@ impl Forest {
                 vec
             })
             .collect();
-        Forest::new(data)
+        Forest::new_from_rows(data)
     }
 
     fn update_visible(&self, from_direction: Direction, visibility_grid: &mut VisibilityGrid) {
@@ -234,9 +235,7 @@ impl Forest {
 
     fn visible_trees(&self) -> VisibilityGrid {
         let mut visible = VisibilityGrid::new_visibility_grid(self.height, self.width);
-        println!("{:#?}", visible);
         self.update_visible(Direction::North, &mut visible);
-        println!("{:#?}", visible);
         self.update_visible(Direction::South, &mut visible);
         self.update_visible(Direction::East, &mut visible);
         self.update_visible(Direction::West, &mut visible);

@@ -2,17 +2,10 @@ use std::{path::Path, rc::Weak};
 
 use crate::utils;
 
-struct Directory {
-    parent: Weak<Directory>, // weak reference upwards
-    files: Vec<File>,
-    directories: Vec<Directory>,
+enum FileSystemObject {
+    Directory {name: String, contents: Vec<FileSystemObject>, parent: Weak<FileSystemObject>},
+    File {name: String, size: usize, parent: Weak<FileSystemObject>},
 }
-
-struct File {
-    name: String,
-    size: usize,
-}
-
 
 pub fn answer_part_1<P: AsRef<Path>>(path: P) -> String {
     let mut lines = utils::read_input(path);

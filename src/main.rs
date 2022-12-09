@@ -7,6 +7,7 @@ mod utils;
 mod day06;
 mod day08;
 mod day07;
+mod day09;
 
 fn main() {
     /*
@@ -43,4 +44,8 @@ fn main() {
     //println!("day08 part 1 real answer  : {:?}", day08::answer_part_1("res/day08/input.real"));
     println!("day08 part 2 sample answer: {:?}", day08::answer_part_2("res/day08/input.sample"));
     println!("day08 part 2 real answer  : {:?}", day08::answer_part_2("res/day08/input.real"));
+    println!("day09 part 1 sample answer: {:?}", day09::answer_part_1("res/day09/input.sample"));
+    println!("day09 part 1 real answer  : {:?}", day09::answer_part_1("res/day09/input.real"));
+    println!("day09 part 2 sample answer: {:?}", day09::answer_part_2("res/day09/input.sample"));
+    println!("day09 part 2 real answer  : {:?}", day09::answer_part_2("res/day09/input.real"));
 }

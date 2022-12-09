@@ -74,33 +74,48 @@ impl Direction {
 }
 
 struct Snake {
-    head: Point,
-    tail: Point,
     segments: Vec<Point>
 }
 
 impl Snake {
 
-    fn new() -> Self {
-        Self { head: (0, 0), tail: (0, 0)}
+    fn new(length: usize) -> Self {
+        assert!(length >= 2);
+        let mut segments = Vec::new();
+        for i in 0..length {
+            segments.push((0, 0));
+        }
+        Self { segments: segments }
     }
 
     fn move_one(&mut self, direction: &Direction) {
-        self.head = self.head.add(direction.displacement());
-        self.move_tail();
+        let head = self.segments[0];
+        self.segments[0] = head.add(direction.displacement());
+        self.move_tails();
     }
 
-    fn move_tail(&mut self) {
-        let disp_to_head = self.tail.displacement_to(self.head);
-        if !disp_to_head.is_adjacent() {
-            self.tail = self.tail.add(disp_to_head.normalize());
+    fn move_tails(&mut self) {
+        let mut prev = None;
+        for i in 0..self.segments.len() {
+            let mut curr = self.segments[i];
+            match prev {
+                Some(prev) => {
+                    let disp_to_prev = curr.displacement_to(prev);
+                    if !disp_to_prev.is_adjacent() {
+                        curr = curr.add(disp_to_prev.normalize());
+                        self.segments[i] = curr;
+                    }
+                },
+                None => {},
+            }
+            prev = Some(curr);
         }
     }
 }
 
 pub fn answer_part_1<P: AsRef<Path>>(path: P) -> String {
     let lines = utils::read_input(path);
-    let mut snake = Snake::new();
+    let mut snake = Snake::new(2);
     let mut set: HashSet<Point> = HashSet::new();
     for line in lines {
         let mut parts = line.split(" ");
@@ -108,13 +123,24 @@ pub fn answer_part_1<P: AsRef<Path>>(path: P) -> String {
         let amount = utils::parse_int(parts.next().unwrap()).unwrap();
         for _ in 0..amount {
             snake.move_one(&direction);
-            set.insert(snake.tail.clone());
+            set.insert(snake.segments.last().unwrap().clone());
         }
     }
     set.len().to_string()
 }
 
 pub fn answer_part_2<P: AsRef<Path>>(path: P) -> String {
-    let mut lines = utils::read_input(path);
-    "n/a".to_string()
+    let lines = utils::read_input(path);
+    let mut snake = Snake::new(10);
+    let mut set: HashSet<Point> = HashSet::new();
+    for line in lines {
+        let mut parts = line.split(" ");
+        let direction = Direction::char_to_direction(parts.next().unwrap().chars().next().unwrap());
+        let amount = utils::parse_int(parts.next().unwrap()).unwrap();
+        for _ in 0..amount {
+            snake.move_one(&direction);
+            set.insert(snake.segments.last().unwrap().clone());
+        }
+    }
+    set.len().to_string()
 }

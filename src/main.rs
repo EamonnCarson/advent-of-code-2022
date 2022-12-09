@@ -47,5 +47,6 @@ fn main() {
     println!("day09 part 1 sample answer: {:?}", day09::answer_part_1("res/day09/input.sample"));
     println!("day09 part 1 real answer  : {:?}", day09::answer_part_1("res/day09/input.real"));
     println!("day09 part 2 sample answer: {:?}", day09::answer_part_2("res/day09/input.sample"));
+    println!("day09 part 2 sample answer2: {:?}", day09::answer_part_2("res/day09/input.sample2"));
     println!("day09 part 2 real answer  : {:?}", day09::answer_part_2("res/day09/input.real"));
 }

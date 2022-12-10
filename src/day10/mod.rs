@@ -30,7 +30,7 @@ impl Instruction {
 }
 
 pub fn answer_part_1<P: AsRef<Path>>(path: P) -> String {
-    let mut lines = utils::read_input(path);
+    let lines = utils::read_input(path);
     let (final_x, signal_strength_total) = lines
         .map(Instruction::parse)
         .flat_map(|instruction| instruction.factor_out().into_iter())
@@ -51,6 +51,29 @@ pub fn answer_part_1<P: AsRef<Path>>(path: P) -> String {
 }
 
 pub fn answer_part_2<P: AsRef<Path>>(path: P) -> String {
-    let mut lines = utils::read_input(path);
-    "n/a".to_string()
+    let lines = utils::read_input(path);
+    let xs = lines
+        .map(Instruction::parse)
+        .flat_map(|instruction| instruction.factor_out().into_iter())
+        .scan(1, |x, instruction| {
+            let x_during = *x;
+            *x = match instruction {
+                Instruction::Noop() => *x,
+                Instruction::AddX(y) => *x + y,
+            };
+            Some(x_during)
+        });
+    //let xs = vec![1].into_iter().chain(xs);
+    let pixel_being_rendered = (0..6).flat_map(|_| 0..40);
+    let pixels = xs.zip(pixel_being_rendered)
+        .map(|(x, pixel_being_rendered)| {
+            //println!("pixel: {}, x: {}", &pixel_being_rendered, &x);
+            (x - pixel_being_rendered).abs() <= 1
+        })
+        .map(|x| match x { true => "#", false => "."});
+    let rendered_pixels: Vec<&str> = pixels.collect();
+    let lines: Vec<String> = (0..6)
+        .map(|x| rendered_pixels[x*40..((x+1) * 40)].join(""))
+        .collect();
+    return lines.join("\n");
 }

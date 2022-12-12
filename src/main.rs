@@ -11,6 +11,7 @@ mod day08;
 mod day09;
 mod day10;
 mod day11;
+mod day12;
 
 
 fn main() {
@@ -63,4 +64,9 @@ fn main() {
     println!("day11 part 1 real answer  : {}", day11::answer_part_1("res/day11/input.real"));
     println!("day11 part 2 sample answer: {}", day11::answer_part_2("res/day11/input.sample"));
     println!("day11 part 2 real answer  : {}", day11::answer_part_2("res/day11/input.real"));
+
+    println!("day12 part 1 sample answer: {}", day12::answer_part_1("res/day12/input.sample"));
+    println!("day12 part 1 real answer  : {}", day12::answer_part_1("res/day12/input.real"));
+    println!("day12 part 2 sample answer: {}", day12::answer_part_2("res/day12/input.sample"));
+    println!("day12 part 2 real answer  : {}", day12::answer_part_2("res/day12/input.real"));
 }

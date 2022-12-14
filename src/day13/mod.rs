@@ -82,6 +82,7 @@ pub fn data1() -> Vec<(Element, Element)> {
     ]
 }
 
+/*
 pub fn data2() -> Vec<(Element, Element)> {
     vec![(
         Element::List(vec![Element::List(vec![Element::List(vec![Element::List(vec![Element::Integer(10),Element::Integer(6)]),Element::Integer(3),Element::List(vec![Element::Integer(9),Element::Integer(6),Element::Integer(7),Element::Integer(9),Element::Integer(7)])]),Element::List(vec![Element::List(vec![Element::Integer(2),Element::Integer(4),Element::Integer(10),Element::Integer(7),Element::Integer(1)]),Element::List(vec![Element::Integer(7),Element::Integer(9)]),Element::List(vec![Element::Integer(8),Element::Integer(2),Element::Integer(9),Element::Integer(9),Element::Integer(2)]),Element::Integer(5),Element::List(vec![Element::Integer(1)])]),Element::Integer(5),Element::List(vec![])]),Element::List(vec![Element::List(vec![Element::List(vec![Element::Integer(8),Element::Integer(6),Element::Integer(6),Element::Integer(9),Element::Integer(1)]),Element::Integer(1)]),Element::List(vec![Element::Integer(7),Element::List(vec![Element::Integer(8),Element::Integer(3)]),Element::Integer(9),Element::Integer(4),Element::List(vec![Element::Integer(0),Element::Integer(3),Element::Integer(10),Element::Integer(9),Element::Integer(7)])])]),Element::List(vec![Element::List(vec![Element::List(vec![Element::Integer(10),Element::Integer(1)])]),Element::Integer(0),Element::List(vec![]),Element::List(vec![Element::List(vec![Element::Integer(4),Element::Integer(1)]),Element::List(vec![Element::Integer(3)]),Element::List(vec![Element::Integer(10),Element::Integer(6),Element::Integer(4)]),Element::Integer(10)])]),Element::List(vec![Element::Integer(8),Element::List(vec![Element::Integer(7)]),Element::Integer(2),Element::Integer(9)]),Element::List(vec![Element::List(vec![]),Element::Integer(2),Element::List(vec![Element::List(vec![Element::Integer(3),Element::Integer(6),Element::Integer(3),Element::Integer(6)]),Element::Integer(4),Element::List(vec![Element::Integer(8),Element::Integer(7),Element::Integer(4),Element::Integer(7),Element::Integer(2)]),Element::Integer(3)])])]),
@@ -536,3 +537,4 @@ pub fn data2() -> Vec<(Element, Element)> {
         )
     ]
 }
+*/

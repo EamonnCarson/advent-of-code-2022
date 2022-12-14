@@ -72,7 +72,12 @@ fn main() {
     println!("day12 part 2 real answer  : {}", day12::answer_part_2("res/day12/input.real"));
 
     println!("day13 part 1 sample answer: {}", day13::answer_part_1(day13::data1()));
-    println!("day13 part 1 real answer  : {}", day13::answer_part_1(day13::data2()));
+    //println!("day13 part 1 real answer  : {}", day13::answer_part_1(day13::data2()));
     println!("day13 part 2 sample answer: {}", day13::answer_part_2(day13::data1()));
-    println!("day13 part 2 real answer  : {}", day13::answer_part_2(day13::data2()));
+    //println!("day13 part 2 real answer  : {}", day13::answer_part_2(day13::data2()));
+
+    println!("day14 part 1 sample answer: {}", day14::answer_part_1(day14::data1()));
+    println!("day14 part 1 real answer  : {}", day14::answer_part_1(day14::data2()));
+    println!("day14 part 2 sample answer: {}", day14::answer_part_2(day14::data1()));
+    println!("day14 part 2 real answer  : {}", day14::answer_part_2(day14::data2()));
 }

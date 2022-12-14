@@ -1,3 +1,5 @@
+pub mod grid;
+
 use std::{path::Path, fs::File, io::{self, BufRead}, fmt::Display};
 
 

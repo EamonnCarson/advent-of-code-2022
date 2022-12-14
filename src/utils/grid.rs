@@ -1,15 +1,29 @@
+use std::{fmt::Display, iter::Enumerate};
+
 
 type Point = (usize, usize);
 
 #[derive(Debug)]
-struct Grid<T> {
+pub struct Grid<T> {
     data: Vec<T>,
     height: usize,
     width: usize,
 }
 
+impl<T: Display> Display for Grid<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        for row in 0..self.height {
+            for col in 0..self.width {
+                f.write_fmt(format_args!("{}", self.get(row, col)))?;
+            }
+            f.write_str("\n")?;
+        }
+        Ok(())
+    }
+}
+
 impl<T> Grid<T> {
-    fn new_from_rows(data: Vec<Vec<T>>) -> Self {
+    pub fn new_from_rows(data: Vec<Vec<T>>) -> Self {
         let height = data.len();
         let width = data
             .get(0)
@@ -29,6 +43,14 @@ impl<T> Grid<T> {
             (false, true) => panic!("row {} out of bounds {}", row, self.height),
             (false, false) => panic!("Both row {} and col {} out of bounds {} and {}", row, col, self.height, self.width),
         }
+    }
+
+    pub fn is_inbounds(&self, row: usize, col: usize) -> bool {
+        row < self.height && col < self.width
+    }
+
+    pub fn xy_point_is_inbounds(&self, point: &Point) -> bool {
+        self.is_inbounds(point.1, point.0)
     }
 
     fn get_ix(&self, row: usize, col: usize) -> usize {
